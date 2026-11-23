@@ -8,6 +8,8 @@
 
 // Include Particle Device OS APIs
 #include "Particle.h"
+#include "neopixel.h"
+// ignore the error squigles
 
 // Let Device OS manage the connection to the Particle Cloud
 SYSTEM_MODE(AUTOMATIC);
@@ -20,14 +22,89 @@ SYSTEM_THREAD(ENABLED);
 SerialLogHandler logHandler(LOG_LEVEL_INFO);
 
 // setup() runs once, when the device is first turned on
+// These lines of code should appear AFTER the #include statements, and before
+// the setup() function.
+// IMPORTANT: Set pixel COUNT, PIN and TYPE
+int PIXEL_COUNT = 3;
+#define PIXEL_PIN SPI // Only use SPI or SPI1 on Photon 2 (SPI is MO or S0 pin; SPI1 is D2)
+// NOTE: On the Photon 2, this must be a compiler constant!
+int PIXEL_TYPE = WS2812;
+
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIXEL_PIN, PIXEL_TYPE);
+
+int randWalk(int oldValue, int updateSize){
+    int newValue;
+    int random_number = rand() % (2*updateSize + 1) - updateSize;
+    // cerr << "Random number: " << random_number << endl;
+    newValue = oldValue + random_number;
+    if(newValue > 255){
+        newValue = 255;
+    }
+    else if(newValue < 0){
+        newValue = 0;
+    }
+    return newValue;
+}
+
 void setup() {
+  strip.begin();
   // Put initialization like pinMode and begin functions here
 }
 
 // loop() runs over and over again, as quickly as it can execute.
 void loop() {
-  // The core of your code will likely live here.
+  // int PixelColorCyan = strip.Color(   0, 100, 100);
+  // int PixelColorRed  = strip.Color(  80,   0,   0);
 
+  // int PixelColorGold = strip.Color(  60,  50,   5);
+    //Setup some colors, GRB version
+    int num = randWalk(20, 50);
+    
+    int PixelColorGreen = strip.Color( num,   0, 0);
+    int PixelColorRed  = strip.Color(   0,  num,   0);
+    int PixelColorBlue = strip.Color(  0,  0,   num);
+    
+
+    //Set first pixel to cyan
+    strip.setPixelColor(0, PixelColorRed);
+    //set second pixel to red
+    strip.setPixelColor(1, PixelColorGreen);
+    //set third pixel to Gopher Gold!
+    strip.setPixelColor(2, PixelColorBlue);
+    strip.show();
+    delay(1000);  //wait 1sec
+
+    //flip the red and gold
+    strip.setPixelColor(0, strip.Color(0, num, 0));
+    strip.setPixelColor(1, strip.Color(num, 0, 0));
+    strip.setPixelColor(2, strip.Color(0, 0, num));
+    strip.show();
+    delay(1000);  //wait 1sec
+
+  // The core of your code will likely live here.
+    strip.setPixelColor(0, strip.Color(0, num, 0));
+    strip.setPixelColor(1, strip.Color(num, 0, 0));
+    strip.setPixelColor(2, strip.Color(0, 0, num));
+    strip.show();
+    delay(1000);
+
+    strip.setPixelColor(0, strip.Color(0, num, 0));
+    strip.setPixelColor(1, strip.Color(num, 0, 0));
+    strip.setPixelColor(2, strip.Color(0, 0, num));
+    strip.show();
+    delay(1000);
+
+    strip.setPixelColor(0, strip.Color(0, num, 0));
+    strip.setPixelColor(1, strip.Color(num, 0, 0));
+    strip.setPixelColor(2, strip.Color(0, 0, num));
+    strip.show();
+    delay(1000);
+
+    strip.setPixelColor(0, strip.Color(0, num, 0));
+    strip.setPixelColor(1, strip.Color(num, 0, 0));
+    strip.setPixelColor(2, strip.Color(0, 0, num));
+    strip.show();
+    delay(1000);
   // Example: Publish event to cloud every 10 seconds. Uncomment the next 3 lines to try it!
   // Log.info("Sending Hello World to the cloud!");
   // Particle.publish("Hello world!");
