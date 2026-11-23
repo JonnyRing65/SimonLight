@@ -33,24 +33,24 @@ int PIXEL_TYPE = WS2812;
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIXEL_PIN, PIXEL_TYPE);
 
 int num = 255;
+int ButtonPIN = D3;
+bool ButtonNow;
+bool ButtonLast;
 
 void setup() {
+  pinMode(ButtonPIN, INPUT_PULLDOWN);
   strip.begin();
   // Put initialization like pinMode and begin functions here
 }
 
 // loop() runs over and over again, as quickly as it can execute.
 void loop() {
-  // int PixelColorCyan = strip.Color(   0, 100, 100);
-  // int PixelColorRed  = strip.Color(  80,   0,   0);
-  // int PixelColorGold = strip.Color(  60,  50,   5);
-    //Setup some colors, GRB version
-    
-    int PixelColorGreen = strip.Color( num,   0, 0);
-    int PixelColorRed  = strip.Color(   0,  num,   0);
-    int PixelColorBlue = strip.Color(  0,  0,   num);
-    
+  ButtonOut = digitalRead(ButtonPIN);
+  ButtonNow = digitalRead(ButtonPIN);
 
+  if(ButtonNow == HIGH && ButtonLast == LOW) {
+    
+    //Do our work here;
     //Set first pixel to cyan
     strip.setPixelColor(0, PixelColorRed);
     //set second pixel to red
@@ -58,7 +58,22 @@ void loop() {
     //set third pixel to Gopher Gold!
     strip.setPixelColor(2, PixelColorBlue);
     strip.show();
-    delay(1000);  //wait 1sec
+    delay(1000);
+    ButtonLast = HIGH;
+  } else if (ButtonNow == LOW && ButtonLast == HIGH) {
+    strip.setPixelColor(0, strip.Color(0, 0, 0));
+    //set second pixel to red
+    strip.setPixelColor(1, strip.Color(0, 0, 0));
+    //set third pixel to Gopher Gold!
+    strip.setPixelColor(2, strip.Color(0, 0, 0));
+    strip.show();
+    ButtonLast = LOW;
+  }
+  //Setup some colors, GRB version
+    
+    int PixelColorGreen = strip.Color( num,   0, 0);
+    int PixelColorRed  = strip.Color(   0,  num,   0);
+    int PixelColorBlue = strip.Color(  0,  0,   num);
 
   // Example: Publish event to cloud every 10 seconds. Uncomment the next 3 lines to try it!
   // Log.info("Sending Hello World to the cloud!");
