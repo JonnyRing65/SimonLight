@@ -1,7 +1,7 @@
 /* 
- * Project myProject
- * Author: Your Name
- * Date: 
+ * Project Simon Memory Game
+ * Author: Jonny, Tom, Nico
+ * Date: 11/22/26
  * For comprehensive documentation and examples, please visit:
  * https://docs.particle.io/firmware/best-practices/firmware-template/
  */
@@ -32,19 +32,7 @@ int PIXEL_TYPE = WS2812;
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIXEL_PIN, PIXEL_TYPE);
 
-int randWalk(int oldValue, int updateSize){
-    int newValue;
-    int random_number = rand() % (2*updateSize + 1) - updateSize;
-    // cerr << "Random number: " << random_number << endl;
-    newValue = oldValue + random_number;
-    if(newValue > 255){
-        newValue = 255;
-    }
-    else if(newValue < 0){
-        newValue = 0;
-    }
-    return newValue;
-}
+int num = 255;
 
 void setup() {
   strip.begin();
@@ -55,10 +43,8 @@ void setup() {
 void loop() {
   // int PixelColorCyan = strip.Color(   0, 100, 100);
   // int PixelColorRed  = strip.Color(  80,   0,   0);
-
   // int PixelColorGold = strip.Color(  60,  50,   5);
     //Setup some colors, GRB version
-    int num = randWalk(20, 50);
     
     int PixelColorGreen = strip.Color( num,   0, 0);
     int PixelColorRed  = strip.Color(   0,  num,   0);
@@ -74,37 +60,6 @@ void loop() {
     strip.show();
     delay(1000);  //wait 1sec
 
-    //flip the red and gold
-    strip.setPixelColor(0, strip.Color(0, num, 0));
-    strip.setPixelColor(1, strip.Color(num, 0, 0));
-    strip.setPixelColor(2, strip.Color(0, 0, num));
-    strip.show();
-    delay(1000);  //wait 1sec
-
-  // The core of your code will likely live here.
-    strip.setPixelColor(0, strip.Color(0, num, 0));
-    strip.setPixelColor(1, strip.Color(num, 0, 0));
-    strip.setPixelColor(2, strip.Color(0, 0, num));
-    strip.show();
-    delay(1000);
-
-    strip.setPixelColor(0, strip.Color(0, num, 0));
-    strip.setPixelColor(1, strip.Color(num, 0, 0));
-    strip.setPixelColor(2, strip.Color(0, 0, num));
-    strip.show();
-    delay(1000);
-
-    strip.setPixelColor(0, strip.Color(0, num, 0));
-    strip.setPixelColor(1, strip.Color(num, 0, 0));
-    strip.setPixelColor(2, strip.Color(0, 0, num));
-    strip.show();
-    delay(1000);
-
-    strip.setPixelColor(0, strip.Color(0, num, 0));
-    strip.setPixelColor(1, strip.Color(num, 0, 0));
-    strip.setPixelColor(2, strip.Color(0, 0, num));
-    strip.show();
-    delay(1000);
   // Example: Publish event to cloud every 10 seconds. Uncomment the next 3 lines to try it!
   // Log.info("Sending Hello World to the cloud!");
   // Particle.publish("Hello world!");
