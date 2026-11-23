@@ -45,11 +45,12 @@ void setup() {
 
 // loop() runs over and over again, as quickly as it can execute.
 void loop() {
-  ButtonOut = digitalRead(ButtonPIN);
   ButtonNow = digitalRead(ButtonPIN);
 
   if(ButtonNow == HIGH && ButtonLast == LOW) {
-    
+    int PixelColorGreen = strip.Color( num,   0, 0);
+    int PixelColorRed  = strip.Color(   0,  num,   0);
+    int PixelColorBlue = strip.Color(  0,  0,   num);
     //Do our work here;
     //Set first pixel to cyan
     strip.setPixelColor(0, PixelColorRed);
@@ -69,11 +70,7 @@ void loop() {
     strip.show();
     ButtonLast = LOW;
   }
-  //Setup some colors, GRB version
-    
-    int PixelColorGreen = strip.Color( num,   0, 0);
-    int PixelColorRed  = strip.Color(   0,  num,   0);
-    int PixelColorBlue = strip.Color(  0,  0,   num);
+    //Setup some colors, GRB version
 
   // Example: Publish event to cloud every 10 seconds. Uncomment the next 3 lines to try it!
   // Log.info("Sending Hello World to the cloud!");
